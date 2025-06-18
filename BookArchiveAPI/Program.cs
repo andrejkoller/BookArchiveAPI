@@ -1,4 +1,8 @@
 
+using BookArchiveAPI.Data;
+using BookArchiveAPI.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace BookArchiveAPI
 {
     public class Program
@@ -7,15 +11,15 @@ namespace BookArchiveAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+            builder.Services.AddScoped<BookService>();
             builder.Services.AddOpenApi();
+
+            builder.Services.AddDbContext<BookArchiveDbContext>(options =>
+               options.UseSqlite("Data Source=bookarchive.db"));
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
@@ -27,6 +31,11 @@ namespace BookArchiveAPI
 
 
             app.MapControllers();
+
+            using var scope = app.Services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<BookArchiveDbContext>();
+            context.Database.Migrate();
+            DataSeeder.Seed(context);
 
             app.Run();
         }
