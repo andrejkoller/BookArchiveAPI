@@ -9,5 +9,10 @@ namespace BookArchiveAPI.Services
         {
             return await context.Books.ToListAsync();
         }
+
+        public async Task<Book?> GetBookByIdAsync(int id)
+        {
+            return await context.Books.FindAsync(id);
+        }
     }
 }

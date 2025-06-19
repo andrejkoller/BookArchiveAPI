@@ -6,11 +6,8 @@ namespace BookArchiveAPI.Data
     {
         public static void Seed(BookArchiveDbContext context)
         {
-            Console.WriteLine("Seeding started...");
-
             if (!context.Books.Any())
             {
-                Console.WriteLine("No books found, seeding now.");
                 context.Books.AddRange(
                     new Book
                     {
@@ -56,9 +53,6 @@ namespace BookArchiveAPI.Data
                     }
                 );
                 context.SaveChanges();
-            } else
-            {
-                Console.WriteLine("Books already exist.");
             }
         }
     }

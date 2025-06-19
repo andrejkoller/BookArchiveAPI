@@ -11,6 +11,14 @@ namespace BookArchiveAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowVueApp",
+                    policy => policy.WithOrigins("http://localhost:5173")
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
+
             builder.Services.AddControllers();
             builder.Services.AddScoped<BookService>();
             builder.Services.AddOpenApi();
@@ -29,8 +37,9 @@ namespace BookArchiveAPI
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            app.UseCors("AllowVueApp");
 
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<BookArchiveDbContext>();
