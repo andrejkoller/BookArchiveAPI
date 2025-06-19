@@ -29,6 +29,34 @@ namespace BookArchiveAPI.Services
             return genreBooks;
         }
 
+        public async Task<List<Book>> FilterBooksByFormatAsync(BookFormat format)
+        {
+            var formatBooks = await context.Books
+                .Where(b => b.Format == format)
+                .ToListAsync();
+
+            var otherBooks = await context.Books
+                .Where(b => b.Format != format)
+                .ToListAsync();
+
+            formatBooks.AddRange(otherBooks);
+            return formatBooks;
+        }
+
+        public async Task<List<Book>> FilterBooksByLanguageAsync(BookLanguage language)
+        {
+            var languageBooks = await context.Books
+                .Where(b => b.Language == language)
+                .ToListAsync();
+
+            var otherBooks = await context.Books
+                .Where(b => b.Language != language)
+                .ToListAsync();
+
+            languageBooks.AddRange(otherBooks);
+            return languageBooks;
+        }
+
         public async Task<List<Book>> SortBooksByCreationDate(bool ascending)
         {
             var books = await context.Books.ToListAsync();

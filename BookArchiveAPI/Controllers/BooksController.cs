@@ -47,6 +47,32 @@ namespace BookArchiveAPI.Controllers
             return Ok(books);
         }
 
+        [HttpGet("byformat")]
+        public async Task<IActionResult> GetBooksByFormat([FromQuery] BookFormat format)
+        {
+            var books = await service.FilterBooksByFormatAsync(format);
+
+            if (books == null || books.Count == 0)
+            {
+                return NotFound($"No books found for format {format}.");
+            }
+
+            return Ok(books);
+        }
+
+        [HttpGet("bylanguage")]
+        public async Task<IActionResult> GetBooksByLanguage([FromQuery] BookLanguage language)
+        {
+            var books = await service.FilterBooksByLanguageAsync(language);
+
+            if (books == null || books.Count == 0)
+            {
+                return NotFound($"No books found for language {language}.");
+            }
+
+            return Ok(books);
+        }
+
         [HttpGet("sort")]
         public async Task<IActionResult> SortBooks([FromQuery] bool ascending)
         {
