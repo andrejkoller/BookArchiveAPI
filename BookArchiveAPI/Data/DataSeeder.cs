@@ -20,6 +20,7 @@ namespace BookArchiveAPI.Data
                         CoverImageUrl = "https://example.com/1984.jpg",
                         Publisher = "Secker & Warburg",
                         PageCount = 328,
+                        CreatedAt = DateTime.UtcNow,
                         Format = BookFormat.Hardcover,
                         Language = BookLanguage.English
                     },
@@ -34,6 +35,7 @@ namespace BookArchiveAPI.Data
                         CoverImageUrl = "https://example.com/animal_farm.jpg",
                         Publisher = "Secker & Warburg",
                         PageCount = 112,
+                        CreatedAt = DateTime.UtcNow,
                         Format = BookFormat.Paperback,
                         Language = BookLanguage.English
                     },
@@ -48,6 +50,7 @@ namespace BookArchiveAPI.Data
                         CoverImageUrl = "https://example.com/brave_new_world.jpg",
                         Publisher = "Chatto & Windus",
                         PageCount = 268,
+                        CreatedAt = DateTime.UtcNow,
                         Format = BookFormat.Ebook,
                         Language = BookLanguage.English
                     }

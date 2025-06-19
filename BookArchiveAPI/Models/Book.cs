@@ -17,6 +17,7 @@ namespace BookArchiveAPI.Models
         public string CoverImageUrl { get; set; } = string.Empty;
         public string Publisher { get; set; } = string.Empty;
         public int PageCount { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 
         [JsonConverter(typeof(JsonStringEnumConverter))]

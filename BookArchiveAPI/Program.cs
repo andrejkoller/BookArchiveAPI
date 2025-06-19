@@ -1,4 +1,5 @@
 
+using System.Text.Json.Serialization;
 using BookArchiveAPI.Data;
 using BookArchiveAPI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,11 @@ namespace BookArchiveAPI
                                       .AllowAnyHeader());
             });
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
             builder.Services.AddScoped<BookService>();
             builder.Services.AddOpenApi();
 

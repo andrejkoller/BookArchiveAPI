@@ -14,5 +14,32 @@ namespace BookArchiveAPI.Services
         {
             return await context.Books.FindAsync(id);
         }
+
+        public async Task<List<Book>> FilterBooksByGenreAsync(BookGenre genre)
+        {
+            var genreBooks = await context.Books
+                .Where(b => b.Genre == genre)
+                .ToListAsync();
+
+            var otherBooks = await context.Books
+                .Where(b => b.Genre != genre)
+                .ToListAsync();
+
+            genreBooks.AddRange(otherBooks);
+            return genreBooks;
+        }
+
+        public async Task<List<Book>> SortBooksByCreationDate(bool ascending)
+        {
+            var books = await context.Books.ToListAsync();
+            if (ascending)
+            {
+                return [.. books.OrderBy(b => b.CreatedAt)];
+            }
+            else
+            {
+                return [.. books.OrderByDescending(b => b.CreatedAt)];
+            }
+        }
     }
 }
