@@ -86,5 +86,18 @@ namespace BookArchiveAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchBooks([FromQuery] string query)
+        {
+            var books = await service.SearchBooksAsync(query);
+
+            if (books == null || books.Count == 0)
+            {
+                return NotFound($"No books found matching '{query}'.");
+            }
+
+            return Ok(books);
+        }
     }
 }

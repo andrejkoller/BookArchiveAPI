@@ -69,5 +69,18 @@ namespace BookArchiveAPI.Services
                 return [.. books.OrderByDescending(b => b.CreatedAt)];
             }
         }
+
+        public async Task<List<Book>> SearchBooksAsync(string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return await GetAllBooksAsync();
+            }
+
+            return await context.Books
+                .Where(b => EF.Functions.Like(b.Title, $"%{searchTerm}%") ||
+                            EF.Functions.Like(b.Author, $"%{searchTerm}%"))
+                .ToListAsync();
+        }
     }
 }
