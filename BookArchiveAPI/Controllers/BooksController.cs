@@ -14,9 +14,7 @@ namespace BookArchiveAPI.Controllers
             var books = await service.GetAllBooksAsync();
 
             if (books == null || books.Count == 0)
-            {
                 return NotFound("No books found.");
-            }
 
             return Ok(books);
         }
@@ -27,11 +25,44 @@ namespace BookArchiveAPI.Controllers
             var book = await service.GetBookByIdAsync(id);
 
             if (book == null)
-            {
                 return NotFound($"Book with ID {id} not found.");
-            }
 
             return Ok(book);
+        }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddBook([FromForm] Book book)
+        {
+            if (book == null)
+                return BadRequest("Book data is required.");
+
+            var createdBook = await service.AddBookAsync(book);
+            return CreatedAtAction(nameof(GetBookById), new { id = createdBook.Id }, createdBook);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook(int id)
+        {
+            var deleted = await service.DeleteBookAsync(id);
+
+            if (!deleted)
+                return NotFound($"Book with ID {id} not found.");
+
+            return NoContent();
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateBook(int id, [FromForm] Book book)
+        {
+            if (book == null)
+                return BadRequest("Book data is required.");
+
+            var updatedBook = await service.UpdateBookAsync(id, book);
+
+            if (updatedBook == null)
+                return NotFound($"Book with ID {id} not found.");
+
+            return Ok(updatedBook);
         }
 
         [HttpGet("bygenre")]
@@ -40,9 +71,7 @@ namespace BookArchiveAPI.Controllers
             var books = await service.FilterBooksByGenreAsync(genre);
 
             if (books == null || books.Count == 0)
-            {
                 return NotFound($"No books found for genre {genre}.");
-            }
 
             return Ok(books);
         }
@@ -53,9 +82,7 @@ namespace BookArchiveAPI.Controllers
             var books = await service.FilterBooksByFormatAsync(format);
 
             if (books == null || books.Count == 0)
-            {
                 return NotFound($"No books found for format {format}.");
-            }
 
             return Ok(books);
         }
@@ -66,9 +93,7 @@ namespace BookArchiveAPI.Controllers
             var books = await service.FilterBooksByLanguageAsync(language);
 
             if (books == null || books.Count == 0)
-            {
                 return NotFound($"No books found for language {language}.");
-            }
 
             return Ok(books);
         }
@@ -93,9 +118,7 @@ namespace BookArchiveAPI.Controllers
             var books = await service.SearchBooksAsync(query);
 
             if (books == null || books.Count == 0)
-            {
                 return NotFound($"No books found matching '{query}'.");
-            }
 
             return Ok(books);
         }

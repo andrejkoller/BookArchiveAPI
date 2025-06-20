@@ -3,6 +3,7 @@ using System;
 using BookArchiveAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookArchiveAPI.Migrations
 {
     [DbContext(typeof(BookArchiveDbContext))]
-    partial class BookArchiveDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250620122553_AddNewPropertiesToModel")]
+    partial class AddNewPropertiesToModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
@@ -48,9 +51,10 @@ namespace BookArchiveAPI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Note")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PageCount")
+                    b.Property<int>("PageCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PreviewImage")
@@ -58,16 +62,18 @@ namespace BookArchiveAPI.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Publisher")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Summary")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("YearPublished")
+                    b.Property<int>("YearPublished")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

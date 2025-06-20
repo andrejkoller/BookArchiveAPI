@@ -37,10 +37,13 @@ namespace BookArchiveAPI
             {
                 app.MapOpenApi();
             }
+            app.UseRouting();
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.UseStaticFiles();
 
             app.MapControllers();
 
